@@ -1,0 +1,5 @@
+menuconfig EXAMPLES_ANEMOMETER_TEST
+	bool "anemometer_test"
+	default n
+	---help---
+		Enable support for anemometer_test

@@ -234,6 +234,7 @@ set(msg_files
 	VelocityLimits.msg
 	WheelEncoders.msg
 	Wind.msg
+	Windspeed.msg
 	YawEstimatorStatus.msg
 	versioned/ActuatorMotors.msg
 	versioned/ActuatorServos.msg

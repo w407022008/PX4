@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2019 PX4 Development Team. All rights reserved.
+ *   Copyright (c) 2012-2019 PX4 Development Team. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,52 +31,57 @@
  *
  ****************************************************************************/
 
-#include "PX4Rangefinder.hpp"
+/**
+ * @file px4_simple_app.c
+ * Minimal application example for PX4 autopilot
+ *
+ * @author Example User <mail@example.com>
+ */
 
-#include <lib/drivers/device/Device.hpp>
+#include <px4_platform_common/px4_config.h>
+#include <px4_platform_common/log.h>
+#include <px4_platform_common/tasks.h>
+#include <px4_platform_common/posix.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <poll.h>
+#include <string.h>
+#include <math.h>
 
-PX4Rangefinder::PX4Rangefinder(const uint32_t device_id, const uint8_t device_orientation)
+#include <drivers/drv_hrt.h>
+
+#include <uORB/uORB.h>
+#include <uORB/topics/vehicle_odometry.h>
+
+__EXPORT int vision_test_main(int argc, char *argv[]);
+
+int vision_test_main(int argc, char *argv[])
 {
-	set_device_id(device_id);
-	set_orientation(device_orientation);
-	set_rangefinder_type(distance_sensor_s::MAV_DISTANCE_SENSOR_LASER);
-	set_mode(distance_sensor_s::MODE_UNKNOWN);
-}
+    PX4_INFO("Hello Sky!");
 
-PX4Rangefinder::~PX4Rangefinder()
-{
-	_distance_sensor_pub.unadvertise();
-}
+    /* subscribe to sensor_combined topic */
+    int _vision_sub = orb_subscribe(ORB_ID(vehicle_visual_odometry));
+    /* limit the update rate to 20 Hz */
+    orb_set_interval(_vision_sub, 50);
 
-void PX4Rangefinder::set_device_type(uint8_t device_type)
-{
-	// current DeviceStructure
-	union device::Device::DeviceId device_id;
-	device_id.devid = _distance_sensor_pub.get().device_id;
+    hrt_abstime now = hrt_absolute_time();
+    int id=0;
+    while (id<1000 && hrt_absolute_time()-now<1e6) {
+	bool updated;
+	orb_check(_vision_sub, &updated);
+	if(updated){
+		id++;
+		// obtained data for the first file descriptor
+		struct vehicle_odometry_s raw;
+		// copy sensors raw data into local buffer
+		orb_copy(ORB_ID(vehicle_visual_odometry), _vision_sub, &raw);
+		static struct vehicle_odometry_s raw_last;
+		PX4_INFO("vision measurement time delay:\t %8.4f, delta time:\t %8.4f",
+			(double)((int64_t)raw.timestamp -(int64_t)raw.timestamp_sample)/1000.0,
+			(double)((int64_t)raw.timestamp_sample -(int64_t)raw_last.timestamp_sample)/1000.0);
+		raw_last = raw;
+	}
 
-	// update to new device type
-	device_id.devid_s.devtype = device_type;
-
-	// copy back to report
-	_distance_sensor_pub.get().device_id = device_id.devid;
-}
-
-void PX4Rangefinder::set_orientation(const uint8_t device_orientation)
-{
-	_distance_sensor_pub.get().orientation = device_orientation;
-}
-
-void PX4Rangefinder::update(const hrt_abstime &timestamp_sample, const float distance, const int8_t quality)
-{
-	distance_sensor_s &report = _distance_sensor_pub.get();
-
-	report.timestamp = timestamp_sample;
-	report.current_distance = distance;
-	report.signal_quality = quality;
-
-	// if quality is unavailable (-1) set to 0 if distance is outside bounds
-	if(quality > 0 && distance > report.min_distance && distance < report.max_distance)
-		_distance_sensor_pub.update();
-
-	_distance_sensor_pub.update();
+    }
+    return 0;
 }

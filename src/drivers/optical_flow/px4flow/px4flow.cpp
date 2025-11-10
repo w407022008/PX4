@@ -230,7 +230,7 @@ PX4FLOW::collect()
 	DeviceId device_id;
 	device_id.devid = get_device_id();
 	device_id.devid_s.devtype = DRV_DIST_DEVTYPE_PX4FLOW;
-	device_id.devid_s.address = get_i2c_address();
+	device_id.devid_s.address = 100;//get_i2c_address();
 
 	sensor_optical_flow_s report{};
 

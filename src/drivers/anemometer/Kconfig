@@ -1,0 +1,9 @@
+menu "Anemometer"
+    menuconfig COMMON_ANEMOMETER
+        bool "Common anemometer module's"
+        default n
+        select DRIVERS_ANEMOMETER_SFM3000
+        ---help---
+            Enable default set of anemometer drivers
+    rsource "*/Kconfig"
+endmenu #Anemometer

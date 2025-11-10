@@ -260,7 +260,7 @@ Thoneflow::collect()
 		/* Publish most recent valid measurement */
 		if (valid) {
 
-			report.device_id = 0; // TODO get_device_id();
+			report.device_id = 103; // TODO get_device_id();
 			report.integration_timespan_us = 10526; // microseconds
 
 			/* Rotate measurements from sensor frame to body frame */

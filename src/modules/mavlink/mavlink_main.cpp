@@ -1640,7 +1640,8 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 
 	/* fallthrough */
 	case MAVLINK_MODE_CUSTOM:
-		//stream nothing
+		//stream for MTF-02
+		configure_stream_local("TIMESYNC", 10.0f);
 		break;
 
 	case MAVLINK_MODE_CONFIG: // USB

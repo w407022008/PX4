@@ -74,6 +74,7 @@ private:
 			// ([-1, 1] + 1) / 2 * 1000 = [0, 1000]
 			msg.z = (manual_control_setpoint.throttle + 1.0f) * 500.0f;
 			msg.r = manual_control_setpoint.yaw * 1000.f;
+			msg.buttons = manual_control_setpoint.buttons;
 
 			manual_control_switches_s manual_control_switches{};
 

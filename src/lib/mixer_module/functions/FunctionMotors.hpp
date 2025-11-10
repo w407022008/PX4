@@ -77,7 +77,7 @@ public:
 	static inline void updateValues(uint32_t reversible, float thrust_factor, float *values, int num_values)
 	{
 		if (thrust_factor > FLT_EPSILON && thrust_factor <= 1.f) {
-			// thrust factor
+			// thrust factor  parameter:thr_mdl_fac
 			//  rel_thrust = factor * x^2 + (1-factor) * x,
 			const float a = thrust_factor;
 			const float b = (1.f - thrust_factor);

@@ -1,0 +1,5 @@
+menuconfig EXAMPLES_VISION_TEST
+	bool "vision_test"
+	default n
+	---help---
+		Enable support for vision_test

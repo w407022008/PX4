@@ -89,7 +89,7 @@ private:
 				}
 
 				msg.current_distance = dist_sensor.current_distance * 1e2f; // m to cm
-				msg.id               = i;
+				msg.id               = dist_sensor.device_id;
 				msg.max_distance     = dist_sensor.max_distance * 1e2f;     // m to cm
 				msg.min_distance     = dist_sensor.min_distance * 1e2f;     // m to cm
 				msg.orientation      = dist_sensor.orientation;

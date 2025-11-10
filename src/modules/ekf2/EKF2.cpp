@@ -418,7 +418,7 @@ int EKF2::print_status(bool verbose)
 	PX4_INFO_RAW("ekf2:%d EKF dt: %.4fs, attitude: %d, local position: %d, global position: %d\n",
 		     _instance, (double)_ekf.get_dt_ekf_avg(), _ekf.attitude_valid(),
 		     _ekf.isLocalHorizontalPositionValid(), _ekf.isGlobalHorizontalPositionValid());
-
+	_ekf.print_status();
 	perf_print_counter(_ekf_update_perf);
 	perf_print_counter(_msg_missed_imu_perf);
 
@@ -2356,7 +2356,8 @@ bool EKF2::UpdateFlowSample(ekf2_timestamps_s &ekf2_timestamps)
 			.time_us = optical_flow.timestamp_sample - optical_flow.integration_timespan_us / 2, // correct timestamp to midpoint of integration interval as the data is converted to rates
 			.flow_rate = flow_rate,
 			.gyro_rate = gyro_rate,
-			.quality = optical_flow.quality
+			.quality = optical_flow.quality,
+			.device_id = optical_flow.device_id
 		};
 
 		if (Vector2f(optical_flow.pixel_flow).isAllFinite() && optical_flow.integration_timespan_us < 1e6) {

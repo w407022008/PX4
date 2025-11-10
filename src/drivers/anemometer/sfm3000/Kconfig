@@ -1,0 +1,5 @@
+menuconfig DRIVERS_ANEMOMETER_SFM3000
+	bool "sfm3000"
+	default n
+	---help---
+		Enable support for sfm3000
