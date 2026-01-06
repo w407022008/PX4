@@ -1,0 +1,7 @@
+module.yaml
+module_name: RS10M Distance Sensor
+serial_config:
+    - command: rs10m start -d ${SERIAL_DEV}
+      port_config_param:
+        name: SENS_RS10M_CFG
+        group: Sensors

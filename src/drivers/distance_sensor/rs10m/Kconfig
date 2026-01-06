@@ -1,0 +1,5 @@
+menuconfig DRIVERS_DISTANCE_SENSOR_RS10M
+	bool "RS10M Distance Sensor"
+	default n
+	---help---
+		Enable support for RS10M distance sensor that sends string data with format "XX mm\r\n"
