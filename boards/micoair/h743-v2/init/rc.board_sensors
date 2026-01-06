@@ -16,4 +16,4 @@ bmi270 -s -b 3 -R 0 start
 spl06 -I -a 0x77 start
 
 # External mag
-qmc5883l -I -a 0x0D -R 4 start
+# qmc5883l -I -a 0x0D -R 4 start
