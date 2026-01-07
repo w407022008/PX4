@@ -1,4 +1,3 @@
-module.yaml
 module_name: RS10M Distance Sensor
 serial_config:
     - command: rs10m start -d ${SERIAL_DEV}

@@ -117,7 +117,7 @@ Serial bus driver for the RS10M distance sensor that sends string data in the fo
 ### Examples
 
 Attempt to start driver on a specified serial device.
-$ rs10m start -d /dev/ttyS1
+$ rs10m start -d /dev/ttyS4
 Stop driver
 $ rs10m stop
 )DESCR_STR");
@@ -129,7 +129,6 @@ $ rs10m stop
 	PRINT_MODULE_USAGE_PARAM_INT('R', 25, 0, 25, "Sensor rotation - downward facing by default", true);
 	PRINT_MODULE_USAGE_COMMAND_DESCR("status","Driver status");
 	PRINT_MODULE_USAGE_COMMAND_DESCR("stop","Stop driver");
-	PRINT_MODULE_USAGE_COMMAND_DESCR("status","Print driver status");
 	return PX4_OK;
 }
 
@@ -139,7 +138,7 @@ extern "C" __EXPORT int rs10m_main(int argc, char *argv[])
 {
 	int ch = 0;
 	uint8_t rotation = distance_sensor_s::ROTATION_DOWNWARD_FACING;
-	const char *device_path = "/dev/ttyS3"; // Default port
+	const char *device_path = "/dev/ttyS4"; // Default port
 	int myoptind = 1;
 	const char *myoptarg = nullptr;
 

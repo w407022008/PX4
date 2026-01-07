@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <math.h>
+#include <cctype>
 
 RS10M::RS10M(const char *port, uint8_t rotation) :
 	ScheduledWorkItem(MODULE_NAME, px4::serial_port_to_wq(port)),
@@ -310,7 +311,7 @@ RS10M::collect()
 			break;
 		}
 	}
-
+	dst = distance_m;
 	// If no valid frame was found or the distance is invalid, return error
 	if (!found_frame || distance_m < 0.0f) {
 		perf_end(_sample_perf);
@@ -360,6 +361,7 @@ void
 RS10M::print_info()
 {
 	printf("Using port '%s'\n", _port);
+	printf("dst: %f", dst);
 	perf_print_counter(_sample_perf);
 	perf_print_counter(_comms_errors);
 }

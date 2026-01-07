@@ -21,6 +21,7 @@ public:
 	int init();
 
 	void print_info();
+	double dst;
 
 private:
 
